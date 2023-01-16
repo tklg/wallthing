@@ -1,21 +1,22 @@
-import { rmSync } from 'node:fs'
-import path from 'node:path'
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-import electron from 'vite-electron-plugin'
-import { customStart, loadViteEnv } from 'vite-electron-plugin/plugin'
-import renderer from 'vite-plugin-electron-renderer'
-import pkg from './package.json'
+import { rmSync } from 'node:fs';
+import path from 'node:path';
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import electron from 'vite-electron-plugin';
+import { customStart, loadViteEnv } from 'vite-electron-plugin/plugin';
+import renderer from 'vite-plugin-electron-renderer';
+import pkg from './package.json';
 
-rmSync(path.join(__dirname, 'dist-electron'), { recursive: true, force: true })
+rmSync(path.join(__dirname, 'dist-electron'), { recursive: true, force: true });
 
-const isDevelopment = process.env.NODE_ENV === "development" || !!process.env.VSCODE_DEBUG
+const isDevelopment = process.env.NODE_ENV === "development" || !!process.env.VSCODE_DEBUG;
 
 // https://vitejs.dev/config/
 export default defineConfig({
   resolve: {
     alias: {
-      '@': path.join(__dirname, 'src')
+      '@': path.join(__dirname, 'src'),
+      '#': path.join(__dirname, 'types')
     },
   },
   plugins: [
@@ -39,24 +40,24 @@ export default defineConfig({
       ],
     }),
     // Use Node.js API in the Renderer-process
-    renderer({
+    /* renderer({
       nodeIntegration: true,
-    }),
+    }), */
   ],
   server: !!process.env.VSCODE_DEBUG ? (() => {
-    const url = new URL(pkg.debug.env.VITE_DEV_SERVER_URL)
+    const url = new URL(pkg.debug.env.VITE_DEV_SERVER_URL);
     return {
       host: url.hostname,
       port: +url.port,
-    }
+    };
   })() : undefined,
-  clearScreen: false,
-})
+  clearScreen: true,
+});
 
-function debounce<Fn extends (...args: any[]) => void>(fn: Fn, delay = 299): Fn {
-  let t: NodeJS.Timeout
+function debounce<Fn extends (...args: any[]) => void> (fn: Fn, delay = 299): Fn {
+  let t: NodeJS.Timeout;
   return ((...args: Parameters<Fn>) => {
-    clearTimeout(t)
-    t = setTimeout(() => fn(...args), delay)
-  }) as Fn
+    clearTimeout(t);
+    t = setTimeout(() => fn(...args), delay);
+  }) as Fn;
 }

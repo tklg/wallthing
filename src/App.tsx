@@ -1,17 +1,16 @@
 import { ViewManager } from '@/components/ViewManager';
-import { Module } from '@/types';
+import { Module, ModuleType } from '#/Module';
 import styles from './index.module.scss'
-
-// console.log('[App.tsx]', `Hello world from Electron ${process.versions.electron}!`)
+import { ModuleConfiguration } from '@/components';
 
 const modules: Module[] = [
   {
-    id: '0',
-    name: 'clock',
+    id: '1',
+    type: ModuleType.DigitalClock,
     position: {
       x: 12,
       y: 12,
-      width: 300,
+      width: 500,
       height: 200
     }
   }
@@ -21,6 +20,9 @@ function App() {
   return (
     <div className={styles.app}>
       <ViewManager 
+        modules={modules}
+      />
+      <ModuleConfiguration
         modules={modules}
       />
     </div>

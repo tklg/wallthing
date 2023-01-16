@@ -1,0 +1,41 @@
+@import 'src/css/variables';
+
+.clock {
+  padding: $padding-sm;
+  font-size: $font-size-xxxl;
+  user-select: none;
+
+  .time {
+    font-weight: 300;
+    color: $text-light-1;
+    font-size: 1em;
+    font-feature-settings: 'tnum' 1; // enable tabular numbers (fixed width)
+
+    .divider {
+      color: $text-light-4;
+      font-weight: 200;
+    }
+    .ampm {
+      margin-left: $padding-xs;
+      color: $text-light-3;
+      font-size: 0.5em;
+      display: inline;
+
+      &.am {
+        vertical-align: super;
+      }
+      &.pm {
+        vertical-align: baseline;
+      }
+    }
+  }
+  .date {
+    font-weight: 200;
+    color: $text-light-2;
+    font-size: 0.4em;
+
+    .divider {
+      color: $text-light-4;
+    }
+  }
+}

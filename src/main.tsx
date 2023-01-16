@@ -1,11 +1,39 @@
+import { ModuleConfigProvider } from '@/providers/ModuleConfigProvider';
+import { createTheme, NextUIProvider } from '@nextui-org/react';
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App'
-import './samples/node-api'
+// import './samples/node-api'
+
+// https://nextui.org/docs/theme/customize-theme
+const darkTheme = createTheme({
+  type: 'dark',
+  theme: {
+    colors: {
+      primaryLight: '$green200',
+      primaryLightHover: '$green300',
+      primaryLightActive: '$green400',
+      primaryLightContrast: '$green600',
+      primary: '#4ADE7B',
+      primaryBorder: '$green500',
+      primaryBorderHover: '$green600',
+      primarySolidHover: '$green700',
+      primarySolidContrast: '$white',
+      primaryShadow: '$green500',
+
+      gradient: 'linear-gradient(112deg, $blue100 -25%, $pink500 -10%, $purple500 80%)',
+      link: '#5E1DAD',
+    }
+  }
+});
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <App />
+    <NextUIProvider theme={darkTheme}>
+      <ModuleConfigProvider>
+        <App />
+      </ModuleConfigProvider>
+    </NextUIProvider>
   </React.StrictMode>,
 )
 

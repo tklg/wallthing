@@ -1,5 +1,5 @@
 import { ModuleContainer } from '@/components/ModuleContainer';
-import { Module } from '@/types';
+import { Module } from '#/Module';
 import { FC } from 'react';
 import styles from './index.module.scss'
 
