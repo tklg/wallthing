@@ -1,6 +1,7 @@
+import { ConnectedInputProps } from '#/ConnectedInputProps';
 import { ModuleType } from '#/Module';
 import { Position } from '#/Position';
-import { ComponentType, FC } from 'react';
+import { FC } from 'react';
 
 export enum ModuleConfigFieldType {
   Text = 'text',
@@ -17,7 +18,7 @@ export interface ModuleConfigFormItem {
   description?: string;
   placeholder?: string;
   required?: boolean;
-  InputComponent: FC<any>;
+  InputComponent: FC<ConnectedInputProps>;
   defaultValue?: ValueType;
 }
 

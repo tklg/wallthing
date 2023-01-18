@@ -4,6 +4,9 @@ import clsx from 'clsx'
 import styles from './index.module.scss'
 import { ModuleFC } from '#/Module';
 import { configItems } from '@/components/modules/DigitalClock/configuration';
+import Icon from '@mdi/react';
+import { mdiClockDigital } from '@mdi/js';
+import { SvgWithId } from '@/components/SvgWithId';
 
 type DateParts = {
   year: string;
@@ -63,7 +66,9 @@ export const DigitalClock: ModuleFC = () => {
 }
 
 DigitalClock.moduleName = 'Digital Clock'
+DigitalClock.moduleDescription = "It's a clock."
 DigitalClock.configFormItems = configItems;
+DigitalClock.moduleIconPath = mdiClockDigital;
 
 const getDateParts = (date: Date): DateParts => {
   const ampm = format(date, 'a')

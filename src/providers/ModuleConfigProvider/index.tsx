@@ -3,15 +3,19 @@ import { useIpc } from '@/hooks';
 import { createContext, FC, PropsWithChildren, useCallback, useEffect, useMemo, useState } from 'react';
 
 type ModuleConfigContextValue = {
-  updateValue: (id: string, values: Record<string, ValueType>) => void;
-  value: Record<string, ModuleConfigDataStoreItem>;
+  updateValue: (id: string, values: Record<string, ValueType>) => Promise<void>;
+  deleteConfig: (id: string) => Promise<void>;
+  createConfig: (moduleConfigItem: Omit<ModuleConfigDataStoreItem, 'id'>) => Promise<void>,
+  configs: Record<string, ModuleConfigDataStoreItem>;
   editing?: string;
   setEditing: (id?: string) => void;
 }
 
 export const ModuleConfigContext = createContext<ModuleConfigContextValue>({
-  updateValue: () => null,
-  value: {},
+  updateValue: () => Promise.resolve(),
+  createConfig: () => Promise.resolve(),
+  deleteConfig: () => Promise.resolve(),
+  configs: {},
   editing: undefined,
   setEditing: () => null
 })
@@ -19,33 +23,62 @@ export const ModuleConfigContext = createContext<ModuleConfigContextValue>({
 export const ModuleConfigProvider: FC<PropsWithChildren> = ({ children }) => {
   const ipcApi = useIpc()
   const [editing, setEditing] = useState<string>()
-  const [value, setValue] = useState<Record<string, ModuleConfigDataStoreItem>>({})
+  const [configs, setConfigs] = useState<Record<string, ModuleConfigDataStoreItem>>({})
 
   useEffect(() => {
     (async () => {
-      const config = await ipcApi.loadModuleConfig()
-      setValue(config)
+      const configs = await ipcApi.loadModuleConfig()
+      setConfigs(configs)
     })()
   }, [])
 
-  const updateValue = useCallback((id: string, newValues: Record<string, ValueType>) => {
-    setValue(values => {
+  const createConfig = useCallback(async (newItem: Omit<ModuleConfigDataStoreItem, 'id'>) => {
+    const existingPositions = Object.values(configs).map(c => c.position);
+    
+    const created = await ipcApi.createModuleConfig(newItem);
+    setConfigs(moduleConfigs => {
       return {
-        ...values,
+        ...moduleConfigs,
+        [created.id]: created
+      }
+    })
+  }, [configs])
+
+  const updateValue = useCallback(async (id: string, newValues: Record<string, ValueType>) => {
+    await ipcApi.saveModuleConfig(id, newValues)
+    setConfigs(moduleConfigs => {
+      return {
+        ...moduleConfigs,
         [id]: {
-          ...values[id],
-          ...newValues
+          ...moduleConfigs[id],
+          values: {
+            ...moduleConfigs[id].values,
+            ...newValues
+          }
         }
       }
     })
   }, [])
 
+  const deleteConfig = useCallback(async (id: string) => {
+    await ipcApi.deleteModuleConfig(id)
+    setConfigs(moduleConfigs => {
+      const copy = {
+        ...moduleConfigs
+      }
+      delete copy[id]
+      return copy
+    })
+  }, [])
+
   const contextValue = useMemo(() => ({
-    value,
+    configs,
     updateValue,
+    createConfig,
+    deleteConfig,
     editing,
     setEditing
-  }), [value, updateValue, editing])
+  }), [configs, updateValue, editing])
 
   return (
     <ModuleConfigContext.Provider value={contextValue}>

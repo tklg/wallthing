@@ -1,10 +1,9 @@
+import { ConnectedInputProps } from '#/ConnectedInputProps';
 import { Input, InputProps } from '@nextui-org/react';
 import { FC } from 'react';
-import { useController, UseControllerProps } from 'react-hook-form';
+import { useController } from 'react-hook-form';
 
-type ConnectedTextInputProps = Pick<UseControllerProps, 'name' | 'rules'> & Partial<InputProps> & {
-  label: string;
-};
+type ConnectedTextInputProps = ConnectedInputProps & Partial<InputProps>
 
 export const ConnectedTextInput: FC<ConnectedTextInputProps> = ({ name, rules, label, ...props }) => {
   const { field: { onChange, value, onBlur, ref }, fieldState: { invalid, error } } = useController({

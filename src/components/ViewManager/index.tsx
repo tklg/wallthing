@@ -1,13 +1,12 @@
 import { ModuleContainer } from '@/components/ModuleContainer';
-import { Module } from '#/Module';
 import { FC } from 'react';
 import styles from './index.module.scss'
+import { useModuleConfigs } from '@/hooks';
 
-type Props = {
-  modules: Module[]
-}
+type Props = {}
 
-export const ViewManager: FC<Props> = ({ modules }) => {
+export const ViewManager: FC<Props> = () => {
+  const modules = useModuleConfigs()
   return (
     <div className={styles.viewManager}>
       {modules.map(({ id, ...props }) => (

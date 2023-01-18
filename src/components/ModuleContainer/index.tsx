@@ -1,24 +1,35 @@
 import { moduleMap } from '@/utils/moduleMap';
 import { Module } from '#/Module';
-import { mdiCogOutline, mdiResize } from '@mdi/js';
+import { mdiCogOutline, mdiResize, mdiTrashCan } from '@mdi/js';
 import Icon from '@mdi/react';
-import { FC, useCallback, useMemo, useRef, useState } from 'react';
+import { FC, useCallback, useMemo } from 'react';
 import { CSSTransition } from 'react-transition-group'
 import styles from './index.module.scss'
 import { AppButton } from '@/components/AppButton';
-import { useModuleConfigEditing } from '@/hooks';
+import { useModuleConfigDelete, useModuleConfigEditing, useTapShow } from '@/hooks';
+import { Position } from '#/Position';
+import { ConfirmationButton } from '@/components/AppButton/ConfirmationButton';
 
-type Props = Module & {
+interface Props extends Module {
 }
-
-const CONTROLS_HIDE_DELAY = 3000
+const defaultPosition: Position = {
+  height: 100,
+  width: 200,
+  x: 0,
+  y: 0
+}
 
 export const ModuleContainer: FC<Props> = ({ position, id, type }) => {
   const Component = moduleMap[type]
-  const controlsTimerRef = useRef<number>()
-  const controlsRef = useRef(null)
-  const [showControls, setShowControls] = useState(false)
   const [, setEditingId] = useModuleConfigEditing()
+  const deleteModule = useModuleConfigDelete()
+  const {
+    ref: controlsRef,
+    show: showControls,
+    handleClick, 
+    handleMouseOut, 
+    handleMouseOver
+  } = useTapShow()
 
   const style = useMemo(() => {
     return {
@@ -29,27 +40,9 @@ export const ModuleContainer: FC<Props> = ({ position, id, type }) => {
     }
   }, [position])
 
-  const handleClick = useCallback(() => {
-    window.clearTimeout(controlsTimerRef.current)
-    
-    if (!showControls) {
-      controlsTimerRef.current = window.setTimeout(() => {
-        setShowControls(false)
-      }, CONTROLS_HIDE_DELAY)
-    }
-
-    setShowControls(!showControls)
-  }, [showControls])
-
-  const handleMouseOver = useCallback(() => {
-    window.clearTimeout(controlsTimerRef.current)
-  }, [])
-
-  const handleMouseOut = useCallback(() => {
-    controlsTimerRef.current = window.setTimeout(() => {
-      setShowControls(false)
-    }, CONTROLS_HIDE_DELAY)
-  }, [])
+  const handleDelete = useCallback(async () => {
+    await deleteModule(id)
+  }, [id])
 
   return (
     <div 
@@ -66,7 +59,6 @@ export const ModuleContainer: FC<Props> = ({ position, id, type }) => {
         classNames={{
           enterActive: styles.controlsEnterActive,
           enterDone: styles.controlsEnterDone,
-          exit: styles.controlsExit,
           exitActive: styles.controlsExitActive,
         }}
       >
@@ -77,6 +69,13 @@ export const ModuleContainer: FC<Props> = ({ position, id, type }) => {
           onMouseOver={handleMouseOver}
           onMouseOut={handleMouseOut}
         >
+          <ConfirmationButton
+            icon={<Icon path={mdiTrashCan}/>} 
+            color='error'
+            confirmationText='Remove module'
+            confirmationDescription={`Are you sure you want to remove this ${Component?.moduleName ?? 'Module'}?`}
+            onPressConfirm={handleDelete}
+          />
           <AppButton icon={<Icon path={mdiResize}/>} />
           <AppButton icon={<Icon path={mdiCogOutline}/>} onPress={() => setEditingId(id)} />
         </div>

@@ -15,5 +15,7 @@ export interface Module {
 
 export interface ModuleFC extends FC {
   moduleName: string;
+  moduleDescription?: string;
+  moduleIconPath: string;
   configFormItems: ModuleConfigFormItem[];
 }

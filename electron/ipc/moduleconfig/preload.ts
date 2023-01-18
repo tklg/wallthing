@@ -6,7 +6,7 @@ export const preload = () => {
 
   for (const methodName in moduleConfigIPCApi) {
     const item = moduleConfigIPCApi[methodName];
-    api[methodName] = () => ipcRenderer.invoke(item.eventName);
+    api[methodName] = (...args: unknown[]) => ipcRenderer.invoke(item.eventName, ...args);
   }
 
   contextBridge.exposeInMainWorld('IPC', api);

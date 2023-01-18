@@ -1,6 +1,6 @@
 import Store from 'electron-store';
 import { moduleConfigSchema } from './jsonschemas/moduleconfigschema';
-import { ModuleConfigDataStoreItem, ModuleType, ValueType } from '#/index';
+import { ModuleConfigDataStoreItem, ValueType } from '#/index';
 import { v4 as uuid } from 'uuid';
 
 const moduleConfigStore = new Store({
@@ -16,14 +16,20 @@ export const configStores = {
     moduleConfigStore.set(`modules.${id}.values`, config);
   },
 
-  createModuleConfig: (type: ModuleType): ModuleConfigDataStoreItem => {
+  createModuleConfig: (newItem: Omit<ModuleConfigDataStoreItem, 'id'>): ModuleConfigDataStoreItem => {
     const item: ModuleConfigDataStoreItem = {
       id: uuid(),
-      type,
-      values: {}
+      values: {},
+      position: { height: 0, width: 0, x: 0, y: 0 },
+      ...newItem
     };
     moduleConfigStore.set(`modules.${item.id}`, item);
     return item;
+  },
+
+  deleteModuleConfig: (id: string) => {
+    // @ts-ignore
+    moduleConfigStore.delete(`modules.${id}`);
   },
 
   getModuleConfigs: (): Record<string, ModuleConfigDataStoreItem> => {

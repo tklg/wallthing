@@ -1,0 +1,72 @@
+@import 'src/css/variables';
+
+.addModuleClickTarget {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+
+  .addButton {
+    position: absolute;
+    bottom: $padding-xs;
+    right: $padding-xs;
+    transition: opacity 0.15s $transition, transform 0.15s $transition;
+    opacity: 0;
+    transform: translateY($padding-xs);
+
+    button {
+      pointer-events: none;
+    }
+    &.enterActive {
+      opacity: 1;
+      transform: translateY(0);
+
+      button {
+        pointer-events: all;
+      }
+    }
+    &.enterDone {
+      opacity: 1;
+      transform: translateY(0);
+
+      button {
+        pointer-events: all;
+      }
+    }
+    &.exitActive {
+      opacity: 0;
+      transform: translateY($padding-xs);
+
+      button {
+        pointer-events: none;
+      }
+    }
+  }
+}
+.addModules {
+  .card {
+    .icon {
+      height: 60px;
+      width: 60px;
+      padding: 0;
+      margin: 0;
+      margin-right: $padding-xs;
+
+      svg {
+        height: 60px;
+        width: 60px;
+
+        clipPath {
+          transform: translate(5px, 7px) scale(2);
+        }
+      }
+    }
+    .cardHeader {
+      padding-bottom: 0;
+    }
+    .cardBody {
+      padding-top: 0;
+    }
+  }
+}

@@ -1,37 +1,43 @@
 import { Module } from '#/Module';
 import { AppButton } from '@/components/AppButton';
 import { moduleMap } from '@/utils/moduleMap';
-import { useModuleConfigEditing } from '@/hooks';
+import { useModuleConfig, useModuleConfigEditing, useModuleConfigs } from '@/hooks';
 import { Modal, Text } from '@nextui-org/react';
-import { FC, useCallback, useMemo } from 'react';
+import { FC, useCallback, useEffect, useMemo } from 'react';
 import { FormProvider, useForm } from 'react-hook-form'
 import styles from './index.module.scss'
+import { ValueType } from '#/ModuleConfig';
 
-interface ModuleConfigurationProps {
-  modules: Module[]
-}
+interface ModuleConfigurationProps {}
 
-export const ModuleConfiguration: FC<ModuleConfigurationProps> = ({
-  modules
-}) => {
+export const ModuleConfiguration: FC<ModuleConfigurationProps> = () => {
+  const modules = useModuleConfigs()
   const [editingId, setEditingId] = useModuleConfigEditing()
+  const [moduleConfig, setModuleConfigValues] = useModuleConfig(editingId)
   const editingModule = useMemo(() => modules.find(m => m.id === editingId), [editingId])
   const moduleName = useMemo(() => editingModule ? moduleMap[editingModule?.type]?.moduleName : '', [editingModule?.type])
   const moduleFormItems = useMemo(() => editingModule ? moduleMap[editingModule?.type]?.configFormItems : [], [editingModule?.type])
-  const formMethods = useForm({
-    defaultValues: {
-
-    }
+  const formMethods = useForm<Record<string, ValueType>>({
+    defaultValues: {}
   })
+
+  useEffect(() => {
+    if (moduleConfig && editingId) {
+      formMethods.reset({
+        ...moduleConfig.values
+      })
+    }
+  }, [formMethods.reset, editingId, moduleConfig])
 
   const handleClose = useCallback(() => {
     setEditingId(undefined)
     formMethods.reset()
   }, [formMethods.reset])
 
-  const handleSave = useCallback(() => {
+  const handleSave = useCallback((newValues: Record<string, ValueType>) => {
+    setModuleConfigValues(newValues)
     handleClose()
-  }, [])
+  }, [setModuleConfigValues, handleClose])
 
   return (    
     <Modal

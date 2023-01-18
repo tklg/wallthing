@@ -1,11 +1,12 @@
 import { ModuleConfigIPCApi } from '#/IpcApi';
-import { ValueType } from '#/ModuleConfig';
+import { ModuleConfigDataStoreItem, ValueType } from '#/ModuleConfig';
+import { IpcMainInvokeEvent } from 'electron';
 import { configStores } from '../../main/store';
 
 type mcipcapiType = Record<keyof ModuleConfigIPCApi, {
   methodName: string;
   eventName: string;
-  handle: Function;
+  handle: (event: IpcMainInvokeEvent, ...args: unknown[]) => unknown;
 }>;
 
 export const moduleConfigIPCApi: mcipcapiType = {
@@ -19,8 +20,22 @@ export const moduleConfigIPCApi: mcipcapiType = {
   saveModuleConfig: {
     methodName: 'saveModuleConfig',
     eventName: 'moduleconfig.save',
-    handle: (id: string, values: Record<string, ValueType>) => {
+    handle: (e, id: string, values: Record<string, ValueType>) => {
       return configStores.saveModuleConfig(id, values);
+    }
+  },
+  createModuleConfig: {
+    methodName: 'createModuleConfig',
+    eventName: 'moduleconfig.create',
+    handle: (e, newItem: Omit<ModuleConfigDataStoreItem, 'id'>) => {
+      return configStores.createModuleConfig(newItem);
+    }
+  },
+  deleteModuleConfig: {
+    methodName: 'deleteModuleConfig',
+    eventName: 'moduleconfig.delete',
+    handle: (e, id: string) => {
+      return configStores.deleteModuleConfig(id);
     }
   }
 };

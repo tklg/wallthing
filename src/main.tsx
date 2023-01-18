@@ -21,7 +21,9 @@ const darkTheme = createTheme({
       primarySolidContrast: '$white',
       primaryShadow: '$green500',
 
-      gradient: 'linear-gradient(112deg, $blue100 -25%, $pink500 -10%, $purple500 80%)',
+      textLight: '$accents8',
+
+      gradient: 'linear-gradient(60deg, $blue100 0%, $cyan400 30%, $green600 100%)',
       link: '#5E1DAD',
     }
   }

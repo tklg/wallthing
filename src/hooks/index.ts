@@ -1,2 +1,3 @@
 export * from './ipc/useIpc';
-export * from './moduleconfig';
+export * from './useModuleConfig';
+export * from './useTapShow';

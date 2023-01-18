@@ -1,24 +1,23 @@
 import { Button, ButtonProps } from '@nextui-org/react';
 import clsx from 'clsx';
-import { FC } from 'react';
+import { forwardRef } from 'react';
 import styles from './index.module.scss'
 
-type AppButtonProps = Omit<ButtonProps, 'onClick'> & {
+export interface AppButtonProps extends Omit<ButtonProps, 'onClick'> {};
 
-};
-
-export const AppButton: FC<AppButtonProps> = ({
+export const AppButton = forwardRef<HTMLButtonElement, AppButtonProps>(({
   children,
   size = 'md',
   color = 'gradient',
   className,
   ...props
-}) => {
+}, ref) => {
   if (props.flat || props.light) {
     color = 'default'
   }
   return (
     <Button
+      ref={ref}
       rounded
       size={size} 
       auto
@@ -29,4 +28,4 @@ export const AppButton: FC<AppButtonProps> = ({
       {children}
     </Button>
   );
-};
+});

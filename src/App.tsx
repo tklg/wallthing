@@ -2,6 +2,7 @@ import { ViewManager } from '@/components/ViewManager';
 import { Module, ModuleType } from '#/Module';
 import styles from './index.module.scss'
 import { ModuleConfiguration } from '@/components';
+import { AddModule } from '@/components/AddModule';
 
 const modules: Module[] = [
   {
@@ -19,12 +20,9 @@ const modules: Module[] = [
 function App() {
   return (
     <div className={styles.app}>
-      <ViewManager 
-        modules={modules}
-      />
-      <ModuleConfiguration
-        modules={modules}
-      />
+      <AddModule />
+      <ViewManager />
+      <ModuleConfiguration />
     </div>
   )
 }

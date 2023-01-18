@@ -1,10 +1,9 @@
+import { ConnectedInputProps } from '#/ConnectedInputProps';
 import { CheckboxProps, Checkbox } from '@nextui-org/react';
 import { FC } from 'react';
-import { useController, UseControllerProps } from 'react-hook-form';
+import { useController } from 'react-hook-form';
 
-type ConnectedCheckboxInputProps = Pick<UseControllerProps, 'name' | 'rules'> & Partial<CheckboxProps> & {
-  label: string;
-};
+type ConnectedCheckboxInputProps = ConnectedInputProps & Partial<CheckboxProps>
 
 export const ConnectedCheckboxInput: FC<ConnectedCheckboxInputProps> = ({
   name, 
@@ -26,8 +25,8 @@ export const ConnectedCheckboxInput: FC<ConnectedCheckboxInputProps> = ({
       ref={ref}
       label={label}
       name={name}
-      value={value}
-      onChange={onChange}
+      isSelected={value}
+      onChange={checked => onChange({ target: { value: checked }})}
       onBlur={onBlur}
       color={color}
     />
