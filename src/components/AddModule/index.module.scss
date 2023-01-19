@@ -7,6 +7,9 @@
   height: 100%;
   width: 100%;
 
+  &.active {
+    z-index: 1000;
+  }
   .addButton {
     position: absolute;
     bottom: $padding-xs;

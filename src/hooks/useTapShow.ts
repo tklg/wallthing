@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useRef, useState } from 'react';
+import { SyntheticEvent, useCallback, useMemo, useRef, useState } from 'react';
 
 const CONTROLS_HIDE_DELAY = 3000;
 
@@ -7,7 +7,8 @@ export const useTapShow = (delay: number = CONTROLS_HIDE_DELAY) => {
   const controlsRef = useRef(null);
   const [showControls, setShowControls] = useState(false);
 
-  const handleClick = useCallback(() => {
+  const handleClick = useCallback((e: SyntheticEvent) => {
+    e.stopPropagation();
     window.clearTimeout(controlsTimerRef.current);
 
     if (!showControls) {

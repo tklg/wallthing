@@ -1,0 +1,11 @@
+@import 'react-grid-layout/css/styles.css';
+@import 'react-resizable/css/styles.css';
+
+.view-manager {
+  .react-draggable-dragging {
+    background: var(--nextui-colors-background);
+  }
+  .react-grid-placeholder {
+    background: var(--nextui-colors-primary);
+  }
+}

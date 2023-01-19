@@ -3,24 +3,23 @@ import { AppButton } from '@/components/AppButton';
 import { useTapShow } from '@/hooks';
 import { mdiPlus } from '@mdi/js';
 import Icon from '@mdi/react';
-import { useState } from 'react';
+import clsx from 'clsx';
+import { FC, useRef, useState } from 'react';
 import { CSSTransition } from 'react-transition-group';
 import styles from './index.module.scss'
 
-export const AddModule = () => {
+interface AddModuleProps {
+  showButton?: boolean;
+}
+
+export const AddModule: FC<AddModuleProps> = ({ showButton }) => {
   const [addingModule, setAddingModule] = useState(false)
-  const {
-    ref,
-    show,
-    handleClick,
-    handleMouseOut,
-    handleMouseOver
-  } = useTapShow(4000)
+  const ref = useRef(null)
 
   return (
-    <div className={styles.addModuleClickTarget} onClick={handleClick}>
+    <div className={clsx(styles.addModuleClickTarget, showButton && styles.active)}>
       <CSSTransition
-        in={show}
+        in={showButton}
         nodeRef={ref}
         timeout={1000}
         classNames={{
@@ -33,8 +32,6 @@ export const AddModule = () => {
           className={styles.addButton}
           key='addmodule'
           ref={ref}
-          onMouseOver={handleMouseOver}
-          onMouseOut={handleMouseOut}
         >
           <AppButton
             icon={<Icon path={mdiPlus}/>}

@@ -1,7 +1,9 @@
 @import 'src/css/variables';
 
 .moduleContainer {
-  position: absolute;
+  position: relative;
+  height: 100%;
+  width: 100%;
   outline: 1px solid $white-4;
 
   .controls {

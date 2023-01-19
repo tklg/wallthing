@@ -34,6 +34,7 @@ export const ModuleConfigProvider: FC<PropsWithChildren> = ({ children }) => {
 
   const createConfig = useCallback(async (newItem: Omit<ModuleConfigDataStoreItem, 'id'>) => {
     const existingPositions = Object.values(configs).map(c => c.position);
+    const windowWidth = window.innerWidth;
     
     const created = await ipcApi.createModuleConfig(newItem);
     setConfigs(moduleConfigs => {
