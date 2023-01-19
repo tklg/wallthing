@@ -1,11 +1,10 @@
 import { ModuleContainer } from '@/components/ModuleContainer';
-import { FC, useMemo, useState } from 'react';
-import GridLayout from 'react-grid-layout';
+import { FC, useCallback } from 'react';
+import GridLayout, { Layout } from 'react-grid-layout';
 import styles from './index.module.scss'
 import './index.scss'
-import { useModuleConfigs, useTapShow, useViewport } from '@/hooks';
+import { useModuleConfigs, useModuleConfigsByKey, useModuleConfigSetPosition, useViewport } from '@/hooks';
 import clsx from 'clsx';
-import { AddModule } from '@/components/AddModule';
 
 const COLS = 4
 const ROWS = 3;
@@ -15,17 +14,30 @@ type Props = {}
 
 export const ViewManager: FC<Props> = () => {
   const modules = useModuleConfigs()
-  const {
-    show,
-    handleClick,
-  } = useTapShow(4000)
+  const modulesDict = useModuleConfigsByKey()
+  const updateModulePosition = useModuleConfigSetPosition()
   const { innerWidth, innerHeight } = useViewport()
   const effectiveRows = ROWS * OFFSETPOINTS
   const effectiveCols = COLS * OFFSETPOINTS
 
+  const handleLayoutChange = useCallback((layouts: Layout[]) => {
+    const changedPositions = layouts.filter(layout => {
+      const originalPosition = modulesDict[layout.i]?.position ?? {};
+      return layout.x !== originalPosition.x || layout.y !== originalPosition.y || layout.w !== originalPosition.width || layout.h !== originalPosition.height;
+    })
+
+    for (const layout of changedPositions) {
+      updateModulePosition(layout.i, {
+        x: layout.x,
+        y: layout.y,
+        width: layout.w,
+        height: layout.h
+      })
+    }    
+  }, [modulesDict])
+
   return (
-    <div className={clsx(styles.viewManager, 'view-manager')} onClick={handleClick}>
-      <AddModule showButton={show} />
+    <div className={clsx(styles.viewManager, 'view-manager')}>
       <GridLayout
         cols={effectiveCols}
         rowHeight={innerHeight / effectiveRows}
@@ -34,7 +46,10 @@ export const ViewManager: FC<Props> = () => {
         compactType={null}
         margin={[0, 0]}
         containerPadding={[0, 0]}
+        onLayoutChange={handleLayoutChange}
+        resizeHandles={['e', 'se', 's']}
         isBounded
+        preventCollision
       >
         {modules.map(({ id, ...props }) => {
           const position = props.position
@@ -44,8 +59,8 @@ export const ViewManager: FC<Props> = () => {
             y: position.y,
             w: position.width,
             h: position.height,
-            minW: OFFSETPOINTS,
-            minH: OFFSETPOINTS
+            minW: 3,
+            minH: 3
           }
           return (
             <div            

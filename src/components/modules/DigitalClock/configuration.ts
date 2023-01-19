@@ -1,11 +1,22 @@
 import { ModuleConfigFormItem } from '#/ModuleConfig';
-import { ConnectedCheckboxInput, ConnectedTextInput } from '@/components/Inputs';
+import { ConnectedCheckboxInput } from '@/components/Inputs';
 
-export const configItems: ModuleConfigFormItem[] = [
+export interface DigitalClockConfigValues {
+  showSeconds?: boolean;
+  showDate?: boolean;
+}
+
+export const configItems: (ModuleConfigFormItem & { id: keyof DigitalClockConfigValues; })[] = [
   {
-    id: 'show-seconds',
+    id: 'showSeconds',
     label: 'Show seconds',
     InputComponent: ConnectedCheckboxInput,
     defaultValue: false
+  },
+  {
+    id: 'showDate',
+    label: 'Show date',
+    InputComponent: ConnectedCheckboxInput,
+    defaultValue: true
   }
 ];

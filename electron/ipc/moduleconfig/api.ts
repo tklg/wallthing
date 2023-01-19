@@ -1,5 +1,5 @@
 import { ModuleConfigIPCApi } from '#/IpcApi';
-import { ModuleConfigDataStoreItem, ValueType } from '#/ModuleConfig';
+import { ModuleConfigDataStoreItem } from '#/ModuleConfig';
 import { IpcMainInvokeEvent } from 'electron';
 import { configStores } from '../../main/store';
 
@@ -20,7 +20,7 @@ export const moduleConfigIPCApi: mcipcapiType = {
   saveModuleConfig: {
     methodName: 'saveModuleConfig',
     eventName: 'moduleconfig.save',
-    handle: (e, id: string, values: Record<string, ValueType>) => {
+    handle: (e, id: string, values: Partial<ModuleConfigDataStoreItem>) => {
       return configStores.saveModuleConfig(id, values);
     }
   },

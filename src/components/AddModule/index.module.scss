@@ -2,10 +2,10 @@
 
 .addModuleClickTarget {
   position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
+  bottom: $padding-xs;
+  right: $padding-xs;
+  height: 60px;
+  width: 60px;
 
   &.active {
     z-index: 1000;

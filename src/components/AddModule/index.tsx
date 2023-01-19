@@ -1,6 +1,5 @@
 import { AddModuleModal } from '@/components/AddModule/AddModuleModal';
 import { AppButton } from '@/components/AppButton';
-import { useTapShow } from '@/hooks';
 import { mdiPlus } from '@mdi/js';
 import Icon from '@mdi/react';
 import clsx from 'clsx';

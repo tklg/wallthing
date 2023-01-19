@@ -2,10 +2,18 @@
 @import 'react-resizable/css/styles.css';
 
 .view-manager {
-  .react-draggable-dragging {
-    background: var(--nextui-colors-background);
-  }
-  .react-grid-placeholder {
-    background: var(--nextui-colors-primary);
+  .react-grid-layout {
+    pointer-events: none;
+
+    .react-grid-item {
+      pointer-events: all;
+    }
+    .react-draggable-dragging,
+    .react-grid-item.resizing {
+      background: var(--nextui-colors-background);
+    }
+    .react-grid-placeholder {
+      background: var(--nextui-colors-primary);
+    }
   }
 }

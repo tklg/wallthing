@@ -25,7 +25,7 @@ export const ConnectedCheckboxInput: FC<ConnectedCheckboxInputProps> = ({
       ref={ref}
       label={label}
       name={name}
-      isSelected={value}
+      isSelected={value ?? false}
       onChange={checked => onChange({ target: { value: checked }})}
       onBlur={onBlur}
       color={color}

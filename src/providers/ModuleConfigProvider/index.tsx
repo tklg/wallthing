@@ -1,9 +1,11 @@
 import { ModuleConfigDataStoreItem, ValueType } from '#/ModuleConfig';
+import { Position } from '#/Position';
 import { useIpc } from '@/hooks';
 import { createContext, FC, PropsWithChildren, useCallback, useEffect, useMemo, useState } from 'react';
 
 type ModuleConfigContextValue = {
   updateValue: (id: string, values: Record<string, ValueType>) => Promise<void>;
+  updatePosition: (id: string, newPosition: Position) => Promise<void>;
   deleteConfig: (id: string) => Promise<void>;
   createConfig: (moduleConfigItem: Omit<ModuleConfigDataStoreItem, 'id'>) => Promise<void>,
   configs: Record<string, ModuleConfigDataStoreItem>;
@@ -13,6 +15,7 @@ type ModuleConfigContextValue = {
 
 export const ModuleConfigContext = createContext<ModuleConfigContextValue>({
   updateValue: () => Promise.resolve(),
+  updatePosition: () => Promise.resolve(),
   createConfig: () => Promise.resolve(),
   deleteConfig: () => Promise.resolve(),
   configs: {},
@@ -46,7 +49,7 @@ export const ModuleConfigProvider: FC<PropsWithChildren> = ({ children }) => {
   }, [configs])
 
   const updateValue = useCallback(async (id: string, newValues: Record<string, ValueType>) => {
-    await ipcApi.saveModuleConfig(id, newValues)
+    await ipcApi.saveModuleConfig(id, { values: newValues })
     setConfigs(moduleConfigs => {
       return {
         ...moduleConfigs,
@@ -56,6 +59,19 @@ export const ModuleConfigProvider: FC<PropsWithChildren> = ({ children }) => {
             ...moduleConfigs[id].values,
             ...newValues
           }
+        }
+      }
+    })
+  }, [])
+
+  const updatePosition = useCallback(async (id: string, newPosition: Position) => {
+    await ipcApi.saveModuleConfig(id, { position: newPosition })
+    setConfigs(moduleConfigs => {
+      return {
+        ...moduleConfigs,
+        [id]: {
+          ...moduleConfigs[id],
+          position: newPosition
         }
       }
     })
@@ -75,11 +91,12 @@ export const ModuleConfigProvider: FC<PropsWithChildren> = ({ children }) => {
   const contextValue = useMemo(() => ({
     configs,
     updateValue,
+    updatePosition,
     createConfig,
     deleteConfig,
     editing,
     setEditing
-  }), [configs, updateValue, editing])
+  }), [configs, updateValue, updatePosition, editing])
 
   return (
     <ModuleConfigContext.Provider value={contextValue}>

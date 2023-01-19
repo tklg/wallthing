@@ -1,12 +1,10 @@
-import { FC, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { format } from 'date-fns'
 import clsx from 'clsx'
 import styles from './index.module.scss'
 import { ModuleFC } from '#/Module';
-import { configItems } from '@/components/modules/DigitalClock/configuration';
-import Icon from '@mdi/react';
+import { configItems, DigitalClockConfigValues } from '@/components/modules/DigitalClock/configuration';
 import { mdiClockDigital } from '@mdi/js';
-import { SvgWithId } from '@/components/SvgWithId';
 
 type DateParts = {
   year: string;
@@ -20,27 +18,39 @@ type DateParts = {
   isAM: boolean;
 }
 
-export const DigitalClock: ModuleFC = () => {
+interface DigitalClockProps {
+  config: DigitalClockConfigValues;
+}
+
+export const DigitalClock: ModuleFC<DigitalClockProps> = ({
+  config = {}
+}) => {
   const [time, setTime] = useState<DateParts>(getDateParts(new Date()))
+  const { showSeconds, showDate } = config
 
   useEffect(() => {
     let timeout: number
     const DELAY = 50
 
+    const getDelay = () => {
+      const now = new Date()
+      const nextSecond = 1000 - now.getMilliseconds() + DELAY;
+      if (showSeconds) return nextSecond;
+      else return 60 - now.getSeconds() - 1 + nextSecond;
+    }
+
     const update = () => {
       const now = new Date()
       setTime(getDateParts(now))
-      const delay = 1000 - now.getMilliseconds() + DELAY
-      timeout = window.setTimeout(update, delay)
+      timeout = window.setTimeout(update, getDelay())
     }
 
-    const nextSecond = 1000 - new Date().getMilliseconds() + DELAY
-    timeout = window.setTimeout(update, nextSecond)
+    timeout = window.setTimeout(update, getDelay())
 
     return () => {
       clearTimeout(timeout)
     }
-  }, [])
+  }, [showSeconds])
 
   return (
     <div className={styles.clock}>
@@ -48,19 +58,25 @@ export const DigitalClock: ModuleFC = () => {
         <span className={styles.hour}>{time.hours}</span>
         <span className={styles.divider}>:</span>
         <span className={styles.hour}>{time.minutes}</span>
-        <span className={styles.divider}>:</span>
-        <span className={styles.hour}>{time.seconds}</span>
+        {showSeconds && (
+          <>
+            <span className={styles.divider}>:</span>
+            <span className={styles.hour}>{time.seconds}</span>
+          </>
+        )}
         <div className={clsx(styles.ampm, time.isAM ? styles.am : styles.pm)}>
           <span>{time.ampm}</span>
         </div>
       </div>
-      <div className={styles.date}>
-        <span className={styles.dayOfWeek}>{time.dayOfWeek}</span>
-        <span className={styles.divider}>{', '}</span>
-        <span className={styles.month}>{time.month}</span>
-        <span className={styles.divider}>{' '}</span>
-        <span className={styles.day}>{time.day}</span>
-      </div>
+      {showDate && (
+        <div className={styles.date}>
+          <span className={styles.dayOfWeek}>{time.dayOfWeek}</span>
+          <span className={styles.divider}>{', '}</span>
+          <span className={styles.month}>{time.month}</span>
+          <span className={styles.divider}>{' '}</span>
+          <span className={styles.day}>{time.day}</span>
+        </div>
+      )}
     </div>
   )
 }

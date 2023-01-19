@@ -6,16 +6,18 @@ import { forwardRef, useCallback } from 'react';
 import { CSSTransition } from 'react-transition-group'
 import styles from './index.module.scss'
 import { AppButton } from '@/components/AppButton';
-import { useModuleConfigDelete, useModuleConfigEditing, useTapShow } from '@/hooks';
+import { useModuleConfig, useModuleConfigDelete, useModuleConfigEditing, useTapShow } from '@/hooks';
 import { ConfirmationButton } from '@/components/AppButton/ConfirmationButton';
 
 interface Props extends Module {
 }
 
-export const ModuleContainer= forwardRef<HTMLDivElement, Props>(({ position, id, type }, ref) => {
+export const ModuleContainer = forwardRef<HTMLDivElement, Props>(({ position, id, type }, ref) => {
   const Component = moduleMap[type]
   const [, setEditingId] = useModuleConfigEditing()
   const deleteModule = useModuleConfigDelete()
+  const { config } = useModuleConfig(id)
+  
   const {
     ref: controlsRef,
     show: showControls,
@@ -35,7 +37,7 @@ export const ModuleContainer= forwardRef<HTMLDivElement, Props>(({ position, id,
       ref={ref}
       onClick={handleClick}
     >
-      {Component && <Component />}
+      {Component && <Component config={config?.values ?? {}} />}
       <CSSTransition
         in={showControls}
         nodeRef={controlsRef}

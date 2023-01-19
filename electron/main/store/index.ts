@@ -1,6 +1,6 @@
 import Store from 'electron-store';
 import { moduleConfigSchema } from './jsonschemas/moduleconfigschema';
-import { ModuleConfigDataStoreItem, ValueType } from '#/index';
+import { ModuleConfigDataStoreItem } from '#/index';
 import { v4 as uuid } from 'uuid';
 
 const moduleConfigStore = new Store({
@@ -9,11 +9,16 @@ const moduleConfigStore = new Store({
 });
 
 export const configStores = {
-  saveModuleConfig: (id: string, config: Record<string, ValueType>) => {
+  saveModuleConfig: (id: string, config: Partial<ModuleConfigDataStoreItem>) => {
     if (!moduleConfigStore.has(`modules.${id}`)) {
       throw new Error(`Module ${id} does not exist`);
     }
-    moduleConfigStore.set(`modules.${id}.values`, config);
+    if (config.values) {
+      moduleConfigStore.set(`modules.${id}.values`, config.values);
+    }
+    if (config.position) {
+      moduleConfigStore.set(`modules.${id}.position`, config.position);
+    }
   },
 
   createModuleConfig: (newItem: Omit<ModuleConfigDataStoreItem, 'id'>): ModuleConfigDataStoreItem => {

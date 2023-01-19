@@ -13,7 +13,7 @@ interface ModuleConfigurationProps {}
 export const ModuleConfiguration: FC<ModuleConfigurationProps> = () => {
   const modules = useModuleConfigs()
   const [editingId, setEditingId] = useModuleConfigEditing()
-  const [moduleConfig, setModuleConfigValues] = useModuleConfig(editingId)
+  const { config: moduleConfig, setValues: setModuleConfigValues } = useModuleConfig(editingId)
   const editingModule = useMemo(() => modules.find(m => m.id === editingId), [editingId])
   const moduleName = useMemo(() => editingModule ? moduleMap[editingModule?.type]?.moduleName : '', [editingModule?.type])
   const moduleFormItems = useMemo(() => editingModule ? moduleMap[editingModule?.type]?.configFormItems : [], [editingModule?.type])
