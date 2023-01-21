@@ -27,7 +27,7 @@ export const useModuleConfigsByKey = () => {
 
 export const useModuleConfigs = () => {
   const { configs } = useConfigContext();
-  return Object.values(configs);
+  return configs ? Object.values(configs) : [];
 };
 
 export const useModuleConfig = (id?: string): { config: ModuleConfigDataStoreItem | null, setValues: (newValue: Record<string, ValueType>) => Promise<void>, setPosition: (newPosition: Position) => Promise<void>; } => {
