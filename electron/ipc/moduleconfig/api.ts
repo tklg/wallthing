@@ -1,7 +1,7 @@
-import { ModuleConfigIPCApi } from '#/IpcApi';
-import { ModuleConfigDataStoreItem } from '#/ModuleConfig';
 import { IpcMainInvokeEvent } from 'electron';
 import { configStores } from '../../main/store';
+import { ModuleConfigIPCApi } from '#/IpcApi';
+import { ModuleConfigDataStoreItem } from '#/ModuleConfig';
 
 type mcipcapiType = Record<keyof ModuleConfigIPCApi, {
   methodName: string;

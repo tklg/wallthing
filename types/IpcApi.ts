@@ -1,4 +1,4 @@
-import { ModuleConfigDataStoreItem, ValueType } from '#/ModuleConfig';
+import { ModuleConfigDataStoreItem } from '#/ModuleConfig';
 
 export type IPCApi = ModuleConfigIPCApi;
 

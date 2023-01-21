@@ -1,6 +1,6 @@
 import Store from 'electron-store';
 import { moduleConfigSchema } from './jsonschemas/moduleconfigschema';
-import { ModuleConfigDataStoreItem } from '#/index';
+import { ModuleConfigDataStoreItem } from '#/ModuleConfig';
 import { v4 as uuid } from 'uuid';
 
 const moduleConfigStore = new Store({

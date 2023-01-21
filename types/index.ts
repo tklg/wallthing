@@ -1,3 +1,4 @@
+export * from './IpcApi';
 export * from './ConnectedInputProps';
 export * from './Module';
 export * from './ModuleConfig';
