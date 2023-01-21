@@ -62,7 +62,9 @@ export const ModuleContainer = forwardRef<HTMLDivElement, Props>(({ position, id
             confirmationDescription={`Are you sure you want to remove this ${Component?.moduleName ?? 'Module'}?`}
             onPressConfirm={handleDelete}
           />
-          <AppButton icon={<Icon path={mdiCogOutline}/>} onPress={() => setEditingId(id)} />
+          {Component && Component.moduleConfigFormItems.length > 0 && (
+            <AppButton icon={<Icon path={mdiCogOutline}/>} onPress={() => setEditingId(id)} />
+          )}
         </div>
       </CSSTransition>
     </div>

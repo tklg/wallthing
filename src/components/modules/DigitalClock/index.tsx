@@ -22,7 +22,7 @@ interface DigitalClockProps {
   config: DigitalClockConfigValues;
 }
 
-export const DigitalClock: ModuleFC<DigitalClockProps> = ({
+export const DigitalClockModule: ModuleFC<DigitalClockProps> = ({
   config = {}
 }) => {
   const [time, setTime] = useState<DateParts>(getDateParts(new Date()))
@@ -81,10 +81,10 @@ export const DigitalClock: ModuleFC<DigitalClockProps> = ({
   )
 }
 
-DigitalClock.moduleName = 'Digital Clock'
-DigitalClock.moduleDescription = "It's a clock."
-DigitalClock.configFormItems = configItems;
-DigitalClock.moduleIconPath = mdiClockDigital;
+DigitalClockModule.moduleName = 'Digital Clock'
+DigitalClockModule.moduleDescription = "It's a clock."
+DigitalClockModule.moduleConfigFormItems = configItems;
+DigitalClockModule.moduleIconPath = mdiClockDigital;
 
 const getDateParts = (date: Date): DateParts => {
   const ampm = format(date, 'a')

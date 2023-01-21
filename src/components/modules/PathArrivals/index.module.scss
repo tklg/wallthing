@@ -1,0 +1,83 @@
+@import 'src/css/variables';
+
+.pathDepartures {
+  user-select: none;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  .title {
+    font-weight: normal;
+    font-size: $font-size-md;
+    color: $text-light-3;
+    margin: $padding-xs 0 0 $padding-xs;
+  }
+  .first {
+    padding: 0 $padding-sm;
+    margin-bottom: $padding-md;
+    border-bottom: 3px solid var(--path-line-color);
+
+    .lineName {
+      font-weight: normal;
+      margin: 0;
+      padding: 0;
+      flex: 1;
+      font-size: $font-size-xxxl;
+    }
+    .details {
+      margin-top: -22px;
+    }
+    .arrivingAt {
+      font-size: $font-size-xl;
+      display: inline;
+      margin-right: $padding-sm;
+    }
+    .status {
+      font-size: $font-size-md;
+      display: inline;
+      color: $text-light-2;
+    }
+  }
+  .comingUp {
+    color: $text-light-2;
+    padding: 0 $padding-sm;
+  }
+  .list {
+    list-style: none;
+    flex: 1;
+    margin: 0;
+    overflow-y: auto;
+
+    .trainRow {
+      display: flex;
+      padding: 0 $padding-sm;
+      margin: 0;
+
+      & + .trainRow {
+        border-top: 1px solid $white-5;
+      }
+      .lineName {
+        font-weight: normal;
+        margin: 0;
+        padding: 0;
+        flex: 1;
+        font-size: $font-size-lg;
+      }
+      .details {
+        text-align: right;
+        display: flex;
+        align-items: center;
+      }
+      .arrivingAt {
+        font-size: $font-size-md;
+      }
+    }
+  }
+  .footer {
+    padding: 0 $padding-sm;
+
+    .lastUpdated {
+      color: $text-light-3;
+    }
+  }
+}

@@ -1,7 +1,9 @@
 import { ModuleFC, ModuleType } from '#/Module';
-import { DigitalClock } from '@/components/modules/DigitalClock';
+import { DigitalClockModule } from '@/components/modules/DigitalClock';
+import { PathArrivalsModule } from '@/components/modules/PathArrivals';
 
-export const moduleMap: Record<ModuleType, ModuleFC | null> = {
-  [ModuleType.DigitalClock]: DigitalClock,
-  [ModuleType.AnalogClock]: null
+export const moduleMap: Record<ModuleType, ModuleFC<{}> | null> = {
+  [ModuleType.DigitalClock]: DigitalClockModule,
+  [ModuleType.AnalogClock]: null,
+  [ModuleType.PathTrainArrivals]: PathArrivalsModule
 };

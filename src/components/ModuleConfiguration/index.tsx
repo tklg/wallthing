@@ -16,7 +16,7 @@ export const ModuleConfiguration: FC<ModuleConfigurationProps> = () => {
   const { config: moduleConfig, setValues: setModuleConfigValues } = useModuleConfig(editingId)
   const editingModule = useMemo(() => modules.find(m => m.id === editingId), [editingId])
   const moduleName = useMemo(() => editingModule ? moduleMap[editingModule?.type]?.moduleName : '', [editingModule?.type])
-  const moduleFormItems = useMemo(() => editingModule ? moduleMap[editingModule?.type]?.configFormItems : [], [editingModule?.type])
+  const moduleFormItems = useMemo(() => editingModule ? moduleMap[editingModule?.type]?.moduleConfigFormItems : [], [editingModule?.type])
   const formMethods = useForm<Record<string, ValueType>>({
     defaultValues: {}
   })

@@ -4,7 +4,8 @@ import { FC } from 'react';
 
 export enum ModuleType {
   DigitalClock = 'digitalclock',
-  AnalogClock = 'analogclock'
+  AnalogClock = 'analogclock',
+  PathTrainArrivals = 'pathtrain',
 }
 
 export interface Module {
@@ -20,5 +21,5 @@ export interface ModuleFC<T> extends FC<ModuleFCProps & T> {
   moduleName: string;
   moduleDescription?: string;
   moduleIconPath: string;
-  configFormItems: ModuleConfigFormItem[];
+  moduleConfigFormItems: ModuleConfigFormItem[];
 }

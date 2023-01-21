@@ -13,7 +13,7 @@
   "scripts": {
     "start": "vite",
     "dev": "vite",
-    "build": "tsc && vite build && electron-builder",
+    "release": "tsc && vite build && electron-builder --win --linux",
     "preview": "vite preview",
     "postinstall": "npx husky install"
   },
@@ -27,6 +27,7 @@
     "@types/react-transition-group": "^4.4.5",
     "@types/uuid": "^9.0.0",
     "@vitejs/plugin-react": "^3.0.0",
+    "axios": "^1.2.3",
     "clsx": "^1.2.1",
     "date-fns": "^2.29.3",
     "electron": "^22.0.0",

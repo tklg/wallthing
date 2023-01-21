@@ -6,9 +6,11 @@
   width: 100%;
   outline: 1px solid $white-5;
   background: var(--nextui-colors-background);
+  overflow: hidden;
+  overflow-y: auto;
 
   .controls {
-    position: absolute;
+    position: fixed;
     top: 0;
     right: 0;
     padding: $padding-xs;
