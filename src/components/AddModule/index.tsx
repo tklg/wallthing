@@ -1,7 +1,7 @@
 import { AddModuleModal } from '@/components/AddModule/AddModuleModal';
 import { AppButton } from '@/components/AppButton';
 import { mdiPlus } from '@mdi/js';
-import Icon from '@mdi/react';
+import { Icon } from '@mdi/react';
 import clsx from 'clsx';
 import { FC, useRef, useState } from 'react';
 import { CSSTransition } from 'react-transition-group';
@@ -32,10 +32,10 @@ export const AddModule: FC<AddModuleProps> = ({ showButton }) => {
           key='addmodule'
           ref={ref}
         >
-          <AppButton
+          {<AppButton
             icon={<Icon path={mdiPlus}/>}
             onPress={() => setAddingModule(true)}
-          />
+          />}
         </div>
       </CSSTransition>
 

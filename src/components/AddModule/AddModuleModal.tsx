@@ -54,7 +54,6 @@ export const AddModuleModal: FC<AddModuleModalProps> = ({ open, onClose }) => {
               >
                 <Card.Header className={styles.cardHeader}>
                   <Container
-                    css={{ background: '$colors$gradient' }}
                     className={styles.icon}
                     style={{ clipPath: `url(#icon-${nsid}-${i})` }}
                    >
@@ -64,7 +63,7 @@ export const AddModuleModal: FC<AddModuleModalProps> = ({ open, onClose }) => {
                     {name ?? 'Unknown Module'}
                   </Text>
                 </Card.Header>
-                <Card.Body className={styles.cardBody} css={{ color: '$textLight'}}>
+                <Card.Body className={styles.cardBody}>
                   <Text color='$textLight'>{description}</Text>
                 </Card.Body>
               </Card>

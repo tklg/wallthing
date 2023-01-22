@@ -1,7 +1,7 @@
 import { moduleMap } from '@/utils/moduleMap';
 import { Module } from '#/Module';
 import { mdiCogOutline, mdiTrashCan } from '@mdi/js';
-import Icon from '@mdi/react';
+import { Icon } from '@mdi/react';
 import { forwardRef, useCallback } from 'react';
 import { CSSTransition } from 'react-transition-group'
 import styles from './index.module.scss'

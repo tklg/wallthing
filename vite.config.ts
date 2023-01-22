@@ -52,6 +52,9 @@ export default defineConfig({
     };
   })() : undefined,
   clearScreen: true,
+  build: {
+    // minify: false
+  }
 });
 
 function debounce<Fn extends (...args: any[]) => void> (fn: Fn, delay = 299): Fn {

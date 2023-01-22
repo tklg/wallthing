@@ -1,7 +1,7 @@
 @import 'src/css/variables';
 
 .addModuleClickTarget {
-  position: absolute;
+  position: fixed;
   bottom: $padding-xs;
   right: $padding-xs;
   height: 60px;
@@ -11,7 +11,7 @@
     z-index: 1000;
   }
   .addButton {
-    position: absolute;
+    position: fixed;
     bottom: $padding-xs;
     right: $padding-xs;
     transition: opacity 0.15s $transition, transform 0.15s $transition;
@@ -55,6 +55,7 @@
       padding: 0;
       margin: 0;
       margin-right: $padding-xs;
+      background: var(--nextui-colors-gradient);
 
       svg {
         height: 60px;

@@ -1,5 +1,5 @@
 import { ModuleConfigProvider } from '@/providers/ModuleConfigProvider';
-import { createTheme, NextUIProvider } from '@nextui-org/react';
+import { createTheme, NextUIProvider, CssBaseline } from '@nextui-org/react';
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App'
@@ -21,6 +21,8 @@ const darkTheme = createTheme({
       primarySolidContrast: '$white',
       primaryShadow: '$green500',
 
+      background: 'black',
+
       textLight: '$accents8',
 
       gradient: 'linear-gradient(60deg, $blue100 0%, $cyan400 30%, $green600 100%)',
@@ -33,6 +35,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <NextUIProvider theme={darkTheme}>
       <ModuleConfigProvider>
+        <CssBaseline />
         <App />
       </ModuleConfigProvider>
     </NextUIProvider>

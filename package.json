@@ -17,7 +17,8 @@
   "scripts": {
     "start": "vite",
     "dev": "vite",
-    "release": "tsc && vite build && electron-builder --linux",
+    "build": "tsc && vite build",
+    "release": "npm run build && electron-builder --linux",
     "preview": "vite preview",
     "postinstall": "npx husky install"
   },
