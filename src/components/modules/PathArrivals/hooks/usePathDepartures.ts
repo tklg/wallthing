@@ -63,7 +63,7 @@ export const usePathArrivals = ({
   } = usePathUpcomingTrains({ station });
 
   const matchingTrains = useMemo(() => {
-    return trains.filter(train => train.direction === direction)
+    return trains.filter(train => !direction ? true : train.direction === direction)
       .sort((a, b) => compareAsc(parseISO(a.projectedArrival), parseISO(b.projectedArrival)));
   }, [trains, direction]);
 

@@ -3,7 +3,7 @@ import { configItems } from '@/components/modules/PathArrivals/configuration';
 import { usePathArrivals } from '@/components/modules/PathArrivals/hooks/usePathDepartures';
 import { PathRouteDirection, PathStationEnum, PathArrivalStatus } from '@/components/modules/PathArrivals/types/path-data';
 import { mdiSubwayVariant } from '@mdi/js';
-import { Text } from '@nextui-org/react';
+import { Loading, Text } from '@nextui-org/react';
 import { format, formatRelative, parseISO } from 'date-fns';
 import { CSSProperties } from 'react';
 import styles from './index.module.scss'
@@ -16,12 +16,15 @@ export const PathArrivalsModule: ModuleFC<PathArrivalsModuleProps> = ({
 }) => {
   const { trains, loading, error } = usePathArrivals({
     station: PathStationEnum.Harrison,
-    direction: PathRouteDirection.TO_NY
+    direction: config.direction as PathRouteDirection ?? null
   })
   const firstTrain = trains[0]
 
   return (
     <div className={styles.pathDepartures}>
+      {loading && !trains.length && (
+        <Loading>Loading arrivals</Loading>
+      )}
       {trains.length > 0 && (
         <>
           <header
@@ -32,13 +35,19 @@ export const PathArrivalsModule: ModuleFC<PathArrivalsModuleProps> = ({
           >
             <Text h2 className={styles.lineName}>{firstTrain.lineName}</Text>
             <div className={styles.details}>
-              <div>
-                <Text className={styles.arrivingAt}>
-                  Arriving at{' '}
-                  <span className={styles.time}>{format(parseISO(firstTrain.projectedArrival), 'h:mm')}</span>
-                </Text>
-                <Text className={styles.status}>{statusToString[firstTrain.status]}</Text>
-              </div>
+              <Text className={styles.arrivingAt}>
+                {firstTrain.status === PathArrivalStatus.ArrivingNow ? (
+                  <>
+                    Arriving now
+                  </>
+                ) : (
+                  <>
+                    Arriving at{' '}
+                    <span className={styles.time}>{format(parseISO(firstTrain.projectedArrival), 'h:mm')}</span>
+                  </>
+                )}
+              </Text>
+              {firstTrain.status !== PathArrivalStatus.ArrivingNow && <Text className={styles.status}>{statusToString[firstTrain.status]}</Text>}
             </div>
           </header>
           
@@ -63,7 +72,8 @@ export const PathArrivalsModule: ModuleFC<PathArrivalsModuleProps> = ({
             ))}
           </ul>
           <footer className={styles.footer}>
-            <Text className={styles.lastUpdated}>Last updated {formatRelative(parseISO(firstTrain.lastUpdated), new Date())}</Text>
+            <Text span className={styles.lastUpdated}>Last updated {formatRelative(parseISO(firstTrain.lastUpdated), new Date())}</Text>
+            {loading && <Loading size='xs' color='secondary' />}
           </footer>
         </>
       )}

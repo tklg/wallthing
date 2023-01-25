@@ -2,16 +2,11 @@
 
 .pathDepartures {
   user-select: none;
+  // pointer-events: none;
   height: 100%;
   display: flex;
   flex-direction: column;
 
-  .title {
-    font-weight: normal;
-    font-size: $font-size-md;
-    color: $text-light-3;
-    margin: $padding-xs 0 0 $padding-xs;
-  }
   .first {
     padding: 0 $padding-sm;
     margin-bottom: $padding-md;
@@ -23,24 +18,30 @@
       padding: 0;
       flex: 1;
       font-size: $font-size-xxxl;
+      line-height: $font-size-xxxl;
     }
     .details {
-      margin-top: -22px;
-    }
-    .arrivingAt {
-      font-size: $font-size-xl;
-      display: inline;
-      margin-right: $padding-sm;
-    }
-    .status {
-      font-size: $font-size-md;
-      display: inline;
-      color: $text-light-2;
+      .arrivingAt {
+        font-size: $font-size-xl;
+        line-height: $font-size-xl;
+        display: inline;
+        margin-right: $padding-sm;
+        color: $text-light-2;
+      }
+      .status {
+        font-size: $font-size-md;
+        display: inline;
+        color: $text-light-2;
+        font-weight: lighter;
+      }
     }
   }
   .comingUp {
     color: $text-light-2;
     padding: 0 $padding-sm;
+    font-size: $font-size-sm;
+    line-height: $font-size-sm;
+    font-weight: lighter;
   }
   .list {
     list-style: none;
@@ -62,6 +63,7 @@
         padding: 0;
         flex: 1;
         font-size: $font-size-lg;
+        line-height: #{$font-size-lg * 1.2};
       }
       .details {
         text-align: right;
@@ -70,6 +72,7 @@
       }
       .arrivingAt {
         font-size: $font-size-md;
+        font-weight: lighter;
       }
     }
   }
@@ -78,6 +81,7 @@
 
     .lastUpdated {
       color: $text-light-3;
+      margin-right: $padding-xs;
     }
   }
 }

@@ -36,6 +36,7 @@ export const ModuleContainer = forwardRef<HTMLDivElement, Props>(({ position, id
       data-module-id={id}
       ref={ref}
       onClick={handleClick}
+      onTouchStart={handleClick}
     >
       {Component && <Component config={config?.values ?? {}} />}
       <CSSTransition

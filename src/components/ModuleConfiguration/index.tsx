@@ -51,18 +51,16 @@ export const ModuleConfiguration: FC<ModuleConfigurationProps> = () => {
       <Modal.Body className={styles.moduleConfiguration}>
         <FormProvider {...formMethods}>
           {moduleFormItems?.map(({
-            id, 
-            label, 
-            description, 
-            placeholder, 
+            id,
+            description,
             defaultValue, 
-            InputComponent
+            InputComponent,
+            ...props
            }) => (
             <InputComponent 
               key={id} 
-              label={label}
-              name={id} 
-              placeholder={placeholder}
+              name={id}
+              {...props}
             />
           ))}
         </FormProvider>
